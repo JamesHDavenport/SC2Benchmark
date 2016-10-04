@@ -2,6 +2,7 @@
 \newtheorem{hypothesis}{Hypothesis}
 \usepackage{graphicx}
 \usepackage{url}
+\usepackage[show]{ed}
 \bibliographystyle{plain}
 \begin{document}
 \title{Benchmarking}
@@ -18,7 +19,7 @@ The SAT competition has taken to including a "virtual best solver" (VBS)
 which is synthesised from the other results by taking the minimum (across all solvers tested) time taken to solve every given benchmark.
 Thus the VBS is always equal to the time of some solver, but which one will change by the benchmark (measuring how often each solver is the VBS is also an interesting metric).  The VBS can be added to the survivor/cactus plot to get a feeling for the variability between solvers.
 \par
-We have therefore added this to our solvers on the diagrams.
+We have therefore added this to our solvers on the diagrams,and counted how often a solver is the VBS. A variation on counting is provided by \cite{Janotaetal2016a}, who measure how often a solver is within one second of being VBS. Their justification is ``The constant of one second was chosen since we consider a smaller difference as insignificant, especially in the context of a one-second time-out''.\ednote{@All: do we want to discuss this? For example,. this is just as subject to random fluctuation as the original, but in a different place. Vbs about scoring ``VBS points'': 1 if VBS, 0 if more than 5\% slower than VBS, and linear in between?}
 \section{Case Studies}
 \begin{figure}[h]
 \caption{Data from Section \ref{sec:Pr}\label{Fig:S2}}
@@ -55,7 +56,7 @@ To the previous solvers, we add a ``joker'', that, on one problem in 10, takes 1
 Scatter plots are used to compare pairs of solvers.  For each benchmark you plot (sometimes using different colours or marks for SAT and UNSAT) a point with x location the time taken by solver 1 and y the time taken by solver 2.  To make things easier to follow, people commonly add the diagonal (sometimes annotated with "solver 1 is faster"
 and "solver 2 is faster" on the relevant sides / corners) and the time-out lines.
 \end{enumerate}
-\bibliography{../../../../../../jhd}
+\bibliography{../../../jhd}
 \end{document}
 \begin{figure}
 \caption{}

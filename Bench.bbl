@@ -1,5 +1,10 @@
 \begin{thebibliography}{1}
 
+\bibitem{Janotaetal2016a}
+M.~Janota, I.~Lynce, and J.~Marques-Silva.
+\newblock {Algorithms for computing backbones of propositional formulae}.
+\newblock {\em AI Communications}, 28:161--177, 2016.
+
 \bibitem{Xuetal2008b}
 L.~Xu, F.~Hutter, H.H. Hoos, and K.~Leyton-Brown.
 \newblock {SATzilla: Portfolio-based Algorithm Selection for SAT}.
