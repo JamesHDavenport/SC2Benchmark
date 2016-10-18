@@ -14,6 +14,11 @@ The SAT community, and hence the SMT community, have substantial experience in b
 This paper aims to document the SAT community practice for the benefit of the computer algebra community.
 \end{abstract}
 \input BenchInner
+\begin{figure}[h]
+\caption{Data from Section \ref{sec:Pr}\label{Fig:S2}}
+\includegraphics[scale=0.25]{Fig2a.jpg}
+\includegraphics[scale=0.25]{Fig2b.jpg}
+\end{figure}
 \section{Virtual Best Solver}
 The SAT competition has taken to including a "virtual best solver" (VBS)
 which is synthesised from the other results by taking the minimum (across all solvers tested) time taken to solve every given benchmark.
@@ -21,13 +26,8 @@ Thus the VBS is always equal to the time of some solver, but which one will chan
 \par
 We have therefore added this to our solvers on the diagrams,and counted how often a solver is the VBS. A variation on counting is provided by \cite{Janotaetal2016a}, who measure how often a solver is within one second of being VBS. Their justification is ``The constant of one second was chosen since we consider a smaller difference as insignificant, especially in the context of a one-second time-out''.\ednote{@All: do we want to discuss this? For example,. this is just as subject to random fluctuation as the original, but in a different place. Vbs about scoring ``VBS points'': 1 if VBS, 0 if more than 5\% slower than VBS, and linear in between?}
 \section{Case Studies}
-\begin{figure}[h]
-\caption{Data from Section \ref{sec:Pr}\label{Fig:S2}}
-\includegraphics[scale=0.25]{Fig2a.jpg}
-\includegraphics[scale=0.25]{Fig2b.jpg}
-\end{figure}
 \subsection{Predictable}\label{sec:Pr}
-We used a vector of baseline times (notionally in seconds) of \\\verb+cat(2,[1.1:0.002:2],[2:1:50],[50:5:300]);+ in MatLab speak, i.e. 1.1 to 2 in steps of 0.002, 2 to 50 in step of 1, and 50 to 300 in steps of 5. We first measure four solvers: baseline, baseline less 1 second, 40\% of baseline and a hybrid of 70\% of (baseline less 0.5 seconds). The results are shown in Figure \ref{Fig:S2}. ``1 second faster'' was quickest 284 times, and ``60\% faster'' 267 times. However, ``60\% faster'' took 48.3 seconds longer than the Virtual Best (which took 4311 seconds),``1 second faster'' 6036 seconds, hybrid  3125 seconds and the baseline 6572 seconds.
+Fo rthe first three tests we used a vector of baseline times (notionally in seconds) of \\\verb+cat(2,[1.1:0.002:2],[2:1:50],[50:5:300]);+ in MatLab speak, i.e. 1.1 to 2 in steps of 0.002, 2 to 50 in step of 1, and 50 to 300 in steps of 5. We first measure four solvers: baseline, baseline less 1 second, 40\% of baseline and a hybrid of 70\% of (baseline less 0.5 seconds). The results are shown in Figure \ref{Fig:S2}. ``1 second faster'' was quickest 284 times, and ``60\% faster'' 267 times. However, ``60\% faster'' took 48.3 seconds longer than the Virtual Best (which took 4311 seconds),``1 second faster'' 6036 seconds, hybrid  3125 seconds and the baseline 6572 seconds.
 \subsection{Predictable plus Fuzz}\label{sec:P+f}
 \begin{figure}[h]
 \caption{Data from Section \ref{sec:P+f}\label{Fig:S3}}
@@ -44,7 +44,13 @@ What happens if we multiply each time by a random variable, uniform in [0.8,1.2]
 \includegraphics[scale=0.25]{Fig4b.jpg}
 \end{figure}
 To the previous solvers, we add a ``joker'', that, on one problem in 10, takes 10\% as long as the baseline.  The results are shown in Figure \ref{Fig:S4}. The joker was quickest 55 times, ``1 second faster'' was quickest 256 times, and ``60\% faster'' 240 times. The time differences are that ``60\% faster'' took 402 seconds longer than the Virtual Best, ``1 second faster''  6390 seconds, hybrid 3479 seconds, the joker 5865 seconds and the baseline 6941 seconds.
-%\subsection{Predictable}
+\subsection{Judgement}\label{sec:J}
+\begin{figure}[h]
+\caption{Data from Section \ref{sec:J}\label{Fig:S5}}
+\includegraphics[scale=0.60]{Fig5a.jpg}
+\includegraphics[scale=0.60]{Fig5b.jpg}
+\end{figure}
+The data used so far had 500 ``fast'' problem ($<2$ seconds), 50 ``medium''  (between 2 and 50) and 5 hard (over 50). What happens if, instead, we have equal numbers in each bracket. The results from this, otherwise using the same methodology as section \ref{sec:P+J}, are in Figure \ref{Fig:S5}: the reader can see the difference from Figure \ref{Fig:S4}: the current figure is dominated by the slow problems. The joker was quickest 593 times, ``1 second faster'' was quickest 256 times, and ``60\% faster'' 5084 times.
 %\subsection{Predictable}
 \section{Martin Brain adds}
 \begin{enumerate}
