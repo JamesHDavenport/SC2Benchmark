@@ -31,6 +31,6 @@ end
 plot(xvec,yvec);
 xlabel('time (secs)');
 ylabel('Number of problems solved');
-legend(text,'Location','NorthWest');
+legend(text,'Location','SouthEast');
 end
 
