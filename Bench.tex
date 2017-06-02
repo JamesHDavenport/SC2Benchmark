@@ -45,8 +45,45 @@ What happens if we multiply each time by a random variable, uniform in [0.8,1.2]
 \includegraphics[scale=0.25]{Fig4b.jpg}
 \end{figure}
 To the previous solvers, we add a ``joker'', that, on one problem in 10, takes 10\% as long as the baseline.  The results are shown in Figure \ref{Fig:S4}. The joker was quickest 55 times, ``1 second faster'' was quickest 256 times, and ``60\% faster'' 240 times. The time differences are that ``60\% faster'' took 402 seconds longer than the Virtual Best, ``1 second faster''  6390 seconds, hybrid 3479 seconds, the joker 5865 seconds and the baseline 6941 seconds.
-\subsection{New}
-Ideas to compare normal and uniform times distributions. Both when $t$ is distributed that way, and when $log(t)$ is. Also we should look at issues of racng multiple copies, in both cases.
+\subsection{Normal Distribution of times}\label{sec:Normal}
+\begin{figure}[h]
+\caption{Data from Section \ref{sec:Normal} --- Normal distribution\label{Fig:Normal}}
+\includegraphics[scale=0.5]{RSolve20.jpg}
+\includegraphics[scale=0.5]{RlogSolve20.jpg}
+\end{figure}
+\begin{figure}[h]
+\caption{Data from Section \ref{sec:Normal} --- log Normal distribution\label{Fig:Normallog}}
+\includegraphics[scale=0.5]{RSolvelog20.jpg}
+\includegraphics[scale=0.5]{RlogSolvelog20.jpg}
+\end{figure}
+It is far from clear what sort of distribution the running times of SAT, and even less SMT, solvers have, but it would be foolish to ignore the normal distribution. We took 36 hypothetical cases, with 9 different running times $t_0=1,\ldots,9$, and standard deviations $t_0/10,2t_0/10,3t_0/10,4t_0/10$ for each running time.
+
+We used five (hypothetical) possible solvers. The base line one just took a time $t$ at random from the relevant normal distribution: $t \in N(t_0,kt_0/10)$. The second one ran two copies in parallel, terminating when the first one did, the third ran three copies, and the next two 10 and 20.
+The data are in Figure  \ref{Fig:Normal}.
+
+It is also not clear whether we should assume $t$ or $\log t$ is normally distributed. Hence we re-ran these experiments, but applied the normla distribution in $\log t$-space. The standard deviation was scaled so that it bore the same ratio to the mean as before.
+The data are in Figure  \ref{Fig:Normallog}.
+\subsection{Uniform}\label{sec:Uniform}
+\begin{figure}[h]
+\caption{Data from Section \ref{sec:Uniform} --- Uniform distribution\label{Fig:Uniform}}
+\includegraphics[scale=0.5]{Runif20.jpg}
+\includegraphics[scale=0.5]{Rlogunif20.jpg}
+\end{figure}
+\begin{figure}[h]
+\caption{Data from Section \ref{sec:Uniform} --- log Uniform distribution\label{Fig:Uniformlog}}
+\includegraphics[scale=0.5]{Runiflog20.jpg}
+\includegraphics[scale=0.5]{Rloguniflog20.jpg}
+\end{figure}
+We then conisdered uniform distributions, with the lower bounds being $t_0=1,\ldots,10$, and the upper bounds being 10 times that. We used the same hypothetical solvers as before.
+The data are in Figure  \ref{Fig:Uniform}.
+
+Again, one could say that we should be uniform in $\log(t)$, and we did these computations.
+The data are in Figure  \ref{Fig:Uniformlog}.
+%\subsection{New}
+%Ideas to compare normal and uniform times distributions. Both when $t$ is distributed that way, and when $\log(t)$ is. Also we should look at issues of racing multiple copies, in both cases.
+%Normal distrbutions, $t=1,ldots,9$ with standard deviations $t/10,2t/10,3t/10,4t/10$, applied directly or to log.
+
+%Uniform distributions, lower bounds $1,\ldots,10$, upper bounds 10 times that
 \subsection{Judgement}\label{sec:J}
 \begin{figure}[h]
 \caption{Data from Section \ref{sec:J}\label{Fig:S5}}
