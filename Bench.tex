@@ -1,12 +1,19 @@
-\documentclass{article}
+%\documentclass{article}
+\documentclass{easychair}
 \newtheorem{hypothesis}{Hypothesis}
 \usepackage{graphicx}
 \usepackage{url}
 \usepackage[show]{ed}
 \bibliographystyle{plain}
 \begin{document}
-\title{Benchmarking}
-\author{MJB/JHD/AG}
+\title{Benchmarking Solvers, SAT-style}
+\author{Martin Nyx Brain\inst{1} \and James H. Davenport\inst{2} \and Alberto Griggio\inst{3}}
+\institute{ 
+University of Oxford, Oxford, U.K. \and
+University of Bath, Bath, U.K. \and
+Fondazione Bruno Kessler, Trento, Italy}
+\authorrunning{Brain/Davenport/Griggio}
+\titlerunning{Benchmarking}
 \maketitle
 \begin{abstract}\noindent
 The SAT community, and hence the SMT community, have substantial experience in benchmarking solvers against each other on large sample sets, and publishing summaries, whereas the computer algebra community tends to time solvers on a small set of problems, and publishing individual times.
@@ -15,62 +22,76 @@ This paper aims to document the SAT community practice for the benefit of the co
 \end{abstract}
 \input BenchInner
 \section{Virtual Best Solver}
-The SAT competition has taken to including a "virtual best solver" (VBS)
+Though not shown in  Figure  \ref{fig:survivor}, the SAT competition has taken to including a "virtual best solver" (VBS)
 which is synthesised from the other results by taking the minimum (across all solvers tested) time taken to solve every given benchmark.
 Thus the VBS is always equal to the time of some solver, but which one will change by the benchmark (measuring how often each solver is the VBS is also an interesting metric).  The VBS can be added to the survivor/cactus plot to get a feeling for the variability between solvers.
 \par
-We have therefore added this to our solvers on the diagrams,and counted how often a solver is the VBS. A variation on counting is provided by \cite{Janotaetal2016a}, who measure how often a solver is within one second of being VBS. Their justification is ``The constant of one second was chosen since we consider a smaller difference as insignificant, especially in the context of a one-second time-out''.\ednote{@All: do we want to discuss this? For example, this is just as subject to random fluctuation as the original, but in a different place. How about scoring ``VBS points'': 1 if VBS, 0 if more than 5\% slower than VBS, and linear in between? Or any other smooth idea?}
+We have therefore added this to our solvers on the diagrams,and counted how often a solver is the VBS. A variation on counting is provided by \cite{Janotaetal2016a}, who measure how often a solver is within one second of being VBS. Their justification is ``The constant of one second was chosen since we consider a smaller difference as insignificant, especially in the context of a one-second time-out''.
+%\ednote{@All: do we want to discuss this? For example, this is just as subject to random fluctuation as the original, but in a different place. How about scoring ``VBS points'': 1 if VBS, 0 if more than 5\% slower than VBS, and linear in between? Or any other smooth idea?}
+This is open to the argument that it is just as subject to random fluctuation as the original, but in a different place. One could consider scoring ``VBS points'': 1 if VBS, 0 if more than 5\% slower\footnote{A percentage-based approach is probably more appropriate than a fixed time, as differences in time tend to come from consistent features. But this could also do with more experimentation.} than VBS, and linear  interpolation in between.
 \section{Distributions}
 \subsection{Normal Distribution of Times}\label{sec:Normal}
 \begin{figure}[h]
 \caption{Data from Section \ref{sec:Normal} --- Normal distribution\label{Fig:Normal}}
-\includegraphics[scale=0.5]{RSolve20.jpg}
-\includegraphics[scale=0.5]{RlogSolve20.jpg}
-\end{figure}
-\begin{figure}[h]
-\caption{Data from Section \ref{sec:Normal} --- log Normal distribution\label{Fig:Normallog}}
-\includegraphics[scale=0.5]{RSolvelog20.jpg}
-\includegraphics[scale=0.5]{RlogSolvelog20.jpg}
+\includegraphics[scale=0.4]{RSolve20.jpg}
+\includegraphics[scale=0.4]{RlogSolve20.jpg}
 \end{figure}
 It is far from clear what sort of distribution the running times of SAT, and even less SMT, solvers have, but it would be foolish to ignore the normal distribution. We took 36 hypothetical cases, with 9 different running times $t_0=1,\ldots,9$, and standard deviations $t_0/10,2t_0/10,3t_0/10,4t_0/10$ for each running time.
 
-We used five (hypothetical) possible solvers. The base line one just took a time $t$ at random from the relevant normal distribution: $t \in N(t_0,kt_0/10)$. The second one ran two copies in parallel, terminating when the first one did, the third ran three copies, and the next two 10 and 20.
-The data are in Figure  \ref{Fig:Normal}.
+We used five (hypothetical) possible solvers. The base line one just took a time $t$ at random from the relevant normal distribution: $t \in N(t_0,kt_0/10)$. The second one ran two copies in parallel, terminating when the first one did, the third ran three copies, and the next two 10 and 20. In this case, the VBS is in fact the equivalent of running 36 copies.
+The data are in Figure  \ref{Fig:Normal}. Note that we are \emph{not} charging twice for the cost of running two copies, i.e. we are loookingat ``time to solution'' not ``cost of solution''
+\begin{figure}[h]
+\caption{Data from Section \ref{sec:Normal} --- log Normal distribution\label{Fig:Normallog}}
+\includegraphics[scale=0.4]{RSolvelog20.jpg}
+\includegraphics[scale=0.4]{RlogSolvelog20.jpg}
+\end{figure}
 
 It is also not clear whether we should assume $t$ or $\log t$ is normally distributed. Hence we re-ran these experiments, but applied the normal distribution in $\log t$-space. The standard deviation was scaled so that it bore the same ratio to the mean as before, i.e. $\sigma_{\log}=\sigma\frac{\mu_{\log}}\mu$, where $\mu$ and $\sigma$ represent the mean and standard deviation.
+Again, the VBS is in fact the equivalent of running 36 copies.
 The data are in Figure  \ref{Fig:Normallog}.
 \subsection{Uniform Distribution of Times}\label{sec:Uniform}
 \begin{figure}[h]
 \caption{Data from Section \ref{sec:Uniform} --- Uniform distribution\label{Fig:Uniform}}
-\includegraphics[scale=0.5]{Runif20.jpg}
-\includegraphics[scale=0.5]{Rlogunif20.jpg}
+\includegraphics[scale=0.4]{Runif20.jpg}
+\includegraphics[scale=0.4]{Rlogunif20.jpg}
 \end{figure}
-\begin{figure}[h]
-\caption{Data from Section \ref{sec:Uniform} --- log Uniform distribution\label{Fig:Uniformlog}}
-\includegraphics[scale=0.5]{Runiflog20.jpg}
-\includegraphics[scale=0.5]{Rloguniflog20.jpg}
-\end{figure}
-We then conisdered uniform distributions, with the lower bounds being $t_0=1,\ldots,10$, and the upper bounds being 10 times that. We used the same hypothetical solvers as before.
+We then considered uniform distributions, with the lower bounds being $t_0=1,\ldots,10$, and the upper bounds being 10 times that. We used the same hypothetical solvers as before.
 The data are in Figure  \ref{Fig:Uniform}.
 
 Again, one could say that we should be uniform in $\log(t)$, and we did these computations.
 The data are in Figure  \ref{Fig:Uniformlog}.
+\begin{figure}[h]
+\caption{Data from Section \ref{sec:Uniform} --- log Uniform distribution\label{Fig:Uniformlog}}
+\includegraphics[scale=0.4]{Runiflog20.jpg}
+\includegraphics[scale=0.4]{Rloguniflog20.jpg}
+\end{figure}
+It might seen from these that running twice and running thrice were very similar, and in fact that running twice was almost half the time of running once, thus meaning that they were almost equivalent in cost. In fact, this model is susceptible to algebraic treatment,
+and the formulae (running from 1 to $B$ seconds, with numeric values for $B=10$) are as follows:
+\begin{equation*}
+\begin{array}{rcccl}
+\hbox{once}&=&\frac{B-1}{\log B}&\approx&3.9087\\
+\hbox{twice}&=&\frac{2}{(\log B)^2}(B-(\log B +1))&\approx&2.5264\\
+\hbox{thrice}&=&\frac{6}{(\log B)^3}\left(B-(\frac12\log B+\log B +1)\right)&\approx&1.9887\\
+\end{array}
+\end{equation*}
+Hence in fact the ``running thrice'' number is approximately correct, at one-half the elapsed time of running once.
 %\subsection{New}
 %Ideas to compare normal and uniform times distributions. Both when $t$ is distributed that way, and when $\log(t)$ is. Also we should look at issues of racing multiple copies, in both cases.
 %Normal distrbutions, $t=1,ldots,9$ with standard deviations $t/10,2t/10,3t/10,4t/10$, applied directly or to log.
 
 %Uniform distributions, lower bounds $1,\ldots,10$, upper bounds 10 times that
 %\afterpage{
-\clearpage
 \begin{figure}[h]
 \caption{Data from Section \ref{sec:Pr}\label{Fig:S2}}
 \includegraphics[scale=0.25]{Fig2a.jpg}
 \includegraphics[scale=0.25]{Fig2b.jpg}
 \end{figure}
+\clearpage
 \section{Case Studies}
-\ednote{Alberto asked ``what's the point''? Good question. I think the first two sections stand as a base case. Then see subsection ``New''.}
+%\ednote{Alberto asked ``what's the point''? Good question. I think the first two sections stand as a base case. Then see subsection ``New''.}
+For the first three tests we used a vector of baseline times (notionally in seconds) of \\\verb+cat(2,[1.1:0.002:2],[2:1:50],[50:5:300]);+ in MatLab speak, i.e. 1.1 to 2 in steps of 0.002, 2 to 50 in step of 1, and 50 to 300 in steps of 5. 
 \subsection{Predictable}\label{sec:Pr}
-For the first three tests we used a vector of baseline times (notionally in seconds) of \verb+cat(2,[1.1:0.002:2],[2:1:50],[50:5:300]);+ in MatLab speak, i.e. 1.1 to 2 in steps of 0.002, 2 to 50 in step of 1, and 50 to 300 in steps of 5. We first measure four solvers: baseline, baseline less 1 second, 40\% of baseline and a hybrid of 70\% of (baseline less 0.5 seconds). The results are shown in Figure \ref{Fig:S2}. ``1 second faster'' was quickest 284 times, and ``60\% faster'' 267 times. However, ``60\% faster'' took 48.3 seconds longer than the Virtual Best (which took 4311 seconds),``1 second faster'' 6036 seconds longer, hybrid  3125 seconds longer and the baseline 6572 seconds longer.
+We first measure four solvers: baseline, baseline less 1 second, 40\% of baseline and a hybrid of 70\% of (baseline less 0.5 seconds). The results are shown in Figure \ref{Fig:S2}. ``1 second faster'' was quickest 284 times, and ``60\% faster'' 267 times. However, ``60\% faster'' took 48.3 seconds longer than the Virtual Best (which took 4311 seconds),``1 second faster'' 6036 seconds longer, hybrid  3125 seconds longer and the baseline 6572 seconds longer.
 \subsection{Predictable plus Fuzz}\label{sec:P+f}
 \begin{figure}[h]
 \caption{Data from Section \ref{sec:P+f}\label{Fig:S3}}
@@ -95,16 +116,17 @@ To the previous solvers, we add a ``joker'', that, on one problem in 10, takes 1
 \end{figure}
 The data used so far had 500 ``fast'' problem ($<2$ seconds), 50 ``medium''  (between 2 and 50) and 5 hard (over 50). What happens if, instead, we have equal numbers in each bracket. The results from this, otherwise using the same methodology as section \ref{sec:P+J}, are in Figure \ref{Fig:S5}: the reader can see the difference from Figure \ref{Fig:S4}: the current figure is dominated by the slow problems. The joker was quickest 593 times, ``1 second faster'' was quickest 256 times, and ``60\% faster'' 5084 times.
 %\subsection{Predictable}
-\section{Martin Brain adds}
-\begin{enumerate}
+%\section{Martin Brain adds}
+\section{Pairwise comparisons}
+%\begin{enumerate}
 %\item
 %The SAT competition has taken to including a "virtual best solver"
 %which is synthesised from the other results by taking the minimum (across all solvers tested) time taken to solve every given benchmark.
 %Thus the VBS is always equal to the time of some solver, but which one will change by the benchmark (measuring how often each solver is the VBS is also an %interesting metric).  The VBS can be added to the cactus plot to get a feeling for the variability between solvers.
-\item
+%\item
 Scatter plots are used to compare pairs of solvers.  For each benchmark you plot (sometimes using different colours or marks for SAT and UNSAT) a point with x location the time taken by solver 1 and y the time taken by solver 2.  To make things easier to follow, people commonly add the diagonal (sometimes annotated with "solver 1 is faster"
 and "solver 2 is faster" on the relevant sides / corners) and the time-out lines.
-\end{enumerate}
+%\end{enumerate}
 \bibliography{../../../jhd}
 \end{document}
 \begin{figure}
