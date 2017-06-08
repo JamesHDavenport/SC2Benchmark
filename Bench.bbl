@@ -5,6 +5,11 @@ M.~Janota, I.~Lynce, and J.~Marques-Silva.
 \newblock {Algorithms for computing backbones of propositional formulae}.
 \newblock {\em AI Communications}, 28:161--177, 2016.
 
+\bibitem{Lubyetal1993}
+M.~Luby, A.~Sinclair, and D.~Zuckerman.
+\newblock {Optimal Speedup of Las Vegas algorithms}.
+\newblock {\em Information Processing Letters}, 47:173--180, 1993.
+
 \bibitem{Xuetal2008b}
 L.~Xu, F.~Hutter, H.H. Hoos, and K.~Leyton-Brown.
 \newblock {SATzilla: Portfolio-based Algorithm Selection for SAT}.
