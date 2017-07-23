@@ -12,6 +12,11 @@ C.~Barrett, P.~Fontaine, and C.~Tinelli.
   \url{http://smtlib.cs.uiowa.edu/papers/smt-lib-reference-v2.5-r2015-06-28.pdf},
   2015.
 
+\bibitem{BiniMourrain1996}
+D.~Bini and B.~Mourrain.
+\newblock {Polynomial test suite}.
+\newblock \url{http://www-sop.inria.fr/saga/POL/}, 1996.
+
 \bibitem{Janotaetal2016a}
 M.~Janota, I.~Lynce, and J.~Marques-Silva.
 \newblock {Algorithms for computing backbones of propositional formulae}.
