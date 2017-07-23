@@ -24,9 +24,9 @@ This paper aims to document the SAT community practice for the benefit of the co
 \section{Virtual Best Solver}
 Though not shown in  Figure  \ref{fig:survivor}, the SAT competition has taken to including a "virtual best solver" (VBS)
 which is synthesised from the other results by taking the minimum (across all solvers tested) time taken to solve every given benchmark.
-Thus the VBS is always equal to the time of some solver, but which one will change by the benchmark (measuring how often each solver is the VBS is also an interesting metric).  The VBS can be added to the survivor/cactus plot to get a feeling for the variability between solvers.
+Thus the VBS time is always equal to the time of some real solver, but which one will change by the benchmark (measuring how often each solver is the VBS is also an interesting metric).  The VBS can be added to the survivor/cactus plot to get a feeling for the variability between solvers.
 \par
-We have therefore added this to our solvers on the diagrams,and counted how often a solver is the VBS. A variation on counting is provided by \cite{Janotaetal2016a}, who measure how often a solver is within one second of being VBS. Their justification is ``The constant of one second was chosen since we consider a smaller difference as insignificant, especially in the context of a one-second time-out''.
+We have therefore added this to our solvers on the diagrams, and counted how often a solver is the VBS. A variation on counting is provided by \cite{Janotaetal2016a}, who measure how often a solver is within one second of being VBS. Their justification is ``The constant of one second was chosen since we consider a smaller difference as insignificant, especially in the context of a one-second time-out''.
 %\ednote{@All: do we want to discuss this? For example, this is just as subject to random fluctuation as the original, but in a different place. How about scoring ``VBS points'': 1 if VBS, 0 if more than 5\% slower than VBS, and linear in between? Or any other smooth idea?}
 This is open to the argument that it is just as subject to random fluctuation as the original, but in a different place. One could consider scoring ``VBS points'': 1 if VBS, 0 if more than 5\% slower\footnote{A percentage-based approach is probably more appropriate than a fixed time, as differences in time tend to come from consistent features. But this could also do with more experimentation.} than VBS, and linear  interpolation in between.
 \section{Running multiple copies}
@@ -35,7 +35,7 @@ One of the effects of having a solution process whose running time is widely var
 This is in fact the default behaviour in MiniSAT 2.2.0, where it is known as \verb+Luby+ (though $T$ is in fact measured in terms of conflicts rather than time, and it's not a complete restart that is performed, as certain learned clauses are kept). 
 \par
 These days, with processors getting more numerous rather than faster, we might consider running multiple copies in parallel. To see how this might help, consider the trivial case of a process whose running time is $1,K,K^2$ with equal probability. Then the average time to solution is $\frac13(1+K+K^2)=37$ when $K=10$. Running two copies and aborting the other when one finds the solution has an average time to solution of $\frac19(5+3K+K^2)=15$ when $K=10$, so the CPU cost is 30 units, still less than the sequential cost.
-Similarly, three copies gives $\frac1{27}(19+7K+K^2)=7$ when $K=10$, so the CPU cost is 21 units, even better.  For $K=10$, the minimum is achiever at 8-fold parallelism, with time-to-solution 1.36 units, and a CPU cost of 10.9 units.
+Similarly, three copies gives $\frac1{27}(19+7K+K^2)=7$ when $K=10$, so the CPU cost is 21 units, even better.  For $K=10$, the minimum is achieved at 8-fold parallelism, with time-to-solution 1.36 units, and a CPU cost of 10.9 units.
 
 The break even point for two-fold parallel running is $K=\frac12\left(1+\sqrt{37}\right)\approx4.5$, and three-fold running is $K=4$. It is worth noting, though, that a single Luby process with $T=\frac13$ (to avoid $T=1$ getting lucky) achieves an average time to solution (and cost) of $\approx 9$.
 \section{Distributions}
@@ -48,7 +48,7 @@ The break even point for two-fold parallel running is $K=\frac12\left(1+\sqrt{37
 It is far from clear what sort of distribution the running times of SAT, and even less SMT, solvers have, but it would be foolish to ignore the normal distribution. We took 36 hypothetical cases, with 9 different running times $t_0=1,\ldots,9$, and standard deviations $t_0/10,2t_0/10,3t_0/10,4t_0/10$ for each running time.
 
 We used five (hypothetical) possible solvers. The base line one just took a time $t$ at random from the relevant normal distribution: $t \in N(t_0,kt_0/10)$. The second one ran two copies in parallel, terminating when the first one did, the third ran three copies, and the next two 10 and 20. In this case, the VBS is in fact the equivalent of running 36 copies.
-The data are in Figure  \ref{Fig:Normal}. Note that we are \emph{not} charging twice for the cost of running two copies, i.e. we are loookingat ``time to solution'' not ``cost of solution''
+The data are in Figure  \ref{Fig:Normal}. Note that we are \emph{not} charging twice for the cost of running two copies, i.e. we are looking at ``time to solution'' not ``cost of solution''
 \begin{figure}[h]
 \caption{Data from Section \ref{sec:Normal} --- log Normal distribution\label{Fig:Normallog}}
 \includegraphics[scale=0.4]{RSolvelog20.jpg}
@@ -92,15 +92,15 @@ Hence in fact the ``running thrice'' number is approximately correct, at one-hal
 %\afterpage{
 \begin{figure}[h]
 \caption{Data from Section \ref{sec:Pr}\label{Fig:S2}}
-\includegraphics[scale=0.25]{Fig2a.jpg}
-\includegraphics[scale=0.25]{Fig2b.jpg}
+\hbox{\hskip-60pt\includegraphics[scale=0.35]{Fig2a.jpg}}
+\hbox{\hskip-60pt\includegraphics[scale=0.35]{Fig2b.jpg}}
 \end{figure}
 \clearpage
 \section{Case Studies}
 %\ednote{Alberto asked ``what's the point''? Good question. I think the first two sections stand as a base case. Then see subsection ``New''.}
 For the first three tests we used a vector of baseline times (notionally in seconds) of \\\verb+cat(2,[1.1:0.002:2],[2:1:50],[50:5:300]);+ in MatLab speak, i.e. 1.1 to 2 in steps of 0.002, 2 to 50 in step of 1, and 50 to 300 in steps of 5. 
 \subsection{Predictable}\label{sec:Pr}
-We first measure four solvers: baseline, baseline less 1 second, 40\% of baseline and a hybrid of 70\% of (baseline less 0.5 seconds). The results are shown in Figure \ref{Fig:S2}. ``1 second faster'' was quickest 284 times, and ``60\% faster'' 267 times. However, ``60\% faster'' took 48.3 seconds longer than the Virtual Best (which took 4311 seconds),``1 second faster'' 6036 seconds longer, hybrid  3125 seconds longer and the baseline 6572 seconds longer.
+We first measure four solvers: baseline, baseline less 1 second, 40\% of baseline and a hybrid of 70\% of (baseline less 0.5 seconds). The results are shown in Figure \ref{Fig:S2}. ``1 second shorter'' was quickest 284 times, and ``60\% faster'' 267 times. However, ``60\% faster'' took 48.3 seconds longer than the Virtual Best (which took 4311 seconds),``1 second shorter'' 6036 seconds longer, hybrid  3125 seconds longer and the baseline 6572 seconds longer.
 \subsection{Predictable plus Fuzz}\label{sec:P+f}
 \begin{figure}[h]
 \caption{Data from Section \ref{sec:P+f}\label{Fig:S3}}
@@ -109,23 +109,28 @@ We first measure four solvers: baseline, baseline less 1 second, 40\% of baselin
 \end{figure}
 What happens if we multiply each time by a random variable, uniform in [0.8,1.2]? 
 %``1 second faster'' was quickest 292 times, hybrid 8 times and ``60\% faster'' 251 times.
-40 runs of this experiment give a mean VBS time of 4299 seconds, with a standard deviation of 53.455. In the counts of how often each solver was VBS, hybrid appeared, showing up between 5 and 17 times, with corresponding adjustments to the others. ``1 second faster'' was always the most common, with the ratio of it over ``60\% faster'' ranging from 1.09 to 1.34. The plots (linear and semilogx) are in Figure \ref{Fig:S3}.
+40 runs of this experiment give a mean VBS time of 4299 seconds, with a standard deviation of 53.455. In the counts of how often each solver was VBS, hybrid appeared, showing up between 5 and 17 times, with corresponding adjustments to the others. ``1 second shorter'' was always the most common, with the ratio of it over ``60\% faster'' ranging from 1.09 to 1.34. The plots (linear and semilogx) are in Figure \ref{Fig:S3}.
 \subsection{Predictable plus Random}\label{sec:P+J}
 \begin{figure}[h]
 \caption{Data from Section \ref{sec:P+J}\label{Fig:S4}}
-\includegraphics[scale=0.25]{Fig4a.jpg}
-\includegraphics[scale=0.25]{Fig4b.jpg}
+\hbox{\hskip-60pt\includegraphics[scale=0.35]{Fig4a.jpg}}
+\hbox{\hskip-60pt\includegraphics[scale=0.35]{Fig4b.jpg}}
 \end{figure}
-To the previous solvers, we add a ``joker'', that, on one problem in 10, takes 10\% as long as the baseline.  The results are shown in Figure \ref{Fig:S4}. The joker was quickest 55 times, ``1 second faster'' was quickest 256 times, and ``60\% faster'' 240 times. The time differences are that ``60\% faster'' took 402 seconds longer than the Virtual Best, ``1 second faster''  6390 seconds, hybrid 3479 seconds, the joker 5865 seconds and the baseline 6941 seconds.
+To the previous solvers, we add a ``joker'', that, on one problem in 10, takes 10\% as long as the baseline.  The results are shown in Figure \ref{Fig:S4}. The joker was quickest 55 times, ``1 second shorter'' was quickest 256 times, and ``60\% faster'' 240 times. The time differences are that ``60\% faster'' took 402 seconds longer than the Virtual Best, ``1 second shorter''  6390 seconds, hybrid 3479 seconds, the joker 5865 seconds and the baseline 6941 seconds.
 \subsection{Judgement}\label{sec:J}
 \begin{figure}[h]
 \caption{Data from Section \ref{sec:J}\label{Fig:S5}}
 \includegraphics[scale=0.60]{Fig5a.jpg}
 \includegraphics[scale=0.60]{Fig5b.jpg}
 \end{figure}
-The data used so far had 500 ``fast'' problem ($<2$ seconds), 50 ``medium''  (between 2 and 50) and 5 hard (over 50). What happens if, instead, we have equal numbers in each bracket. The results from this, otherwise using the same methodology as section \ref{sec:P+J}, are in Figure \ref{Fig:S5}: the reader can see the difference from Figure \ref{Fig:S4}: the current figure is dominated by the slow problems. The joker was quickest 593 times, ``1 second faster'' was quickest 256 times, and ``60\% faster'' 5084 times.
+The data used so far had 500 ``fast'' problem ($<2$ seconds), 50 ``medium''  (between 2 and 50) and 5 hard (over 50). What happens if, instead, we have equal numbers in each bracket. The results from this, otherwise using the same methodology as section \ref{sec:P+J}, are in Figure \ref{Fig:S5}: the reader can see the difference from Figure \ref{Fig:S4}: the current figure is dominated by the slow problems. The joker was quickest 593 times, ``1 second shorter'' was quickest 256 times, and ``60\% faster'' 5084 times.
 %\subsection{Predictable}
 %\section{Martin Brain adds}
+\begin{figure}[t]
+\centering
+\includegraphics[scale=1.4]{scatter.pdf}
+\caption{Scatter Plot Example.\label{Fig:scatter}}
+\end{figure}
 \section{Pairwise comparisons}
 %\begin{enumerate}
 %\item
@@ -135,15 +140,14 @@ The data used so far had 500 ``fast'' problem ($<2$ seconds), 50 ``medium''  (be
 %\item
 Scatter plots are used to compare pairs of solvers.  For each benchmark you plot (sometimes using different colours or marks for SAT and UNSAT) a point with x location the time taken by solver 1 and y the time taken by solver 2.  To make things easier to follow, people commonly add the diagonal (sometimes annotated with "solver 1 is faster"
 and "solver 2 is faster" on the relevant sides / corners) and the time-out lines.
-An example is shown in Figure \ref{Fig:scatter}.
-
-\begin{figure}[t]
-\centering
-\includegraphics[scale=0.8]{scatter.pdf}
-\caption{Scatter Plot Example.\label{Fig:scatter}}
-\end{figure}
-
-
+An example is shown in Figure \ref{Fig:scatter}, from which one might reasonably conclude that Solver 1 is typically 10 times slower than Solver 2, and that Solver 2 never timed out, whereas Solver 1 sometimes did.  loglog plots are usually used, since ratios are the usual deduction. 
+\section{Conclusions}
+The SAT community has had substantial experience in measuring, and comparing, solvers whom time is intrinsically variable, and where selective publication of results could be used to justify almost every conclusion: for example selection from the data underpinning Figure \ref{Fig:scatter} could justify anything from ``On UNSAT examples, Solver 1 is comparable to Solver 2'', to ``Solver 2 is thousands of times faster than Solver 1''. If the computer algebra community is to move from publication of a small set of results to more objective comparisons, it will need to develop:
+\begin{itemize}
+\item significant collections of curated problem sets, available in a common machine-readable format\footnote{This was one of the original goals of OpenMath \cite{Abbottetal1996}.}, as DIMACS \cite{Spence2015a} and SMT-LIB \cite{Barrettetal2015b} have done for the SAT and SMT communities;
+\item the habit of publishing results based on such collections;
+\item the hapit of publishing more than just averages, and this paper is an attempt to indicate what has been found useful in the SAT/SMT communities.
+\end{itemize}
 %\end{enumerate}
 \bibliography{../../../jhd}
 \end{document}

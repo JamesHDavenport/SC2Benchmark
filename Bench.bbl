@@ -1,5 +1,17 @@
 \begin{thebibliography}{1}
 
+\bibitem{Abbottetal1996}
+J.A. Abbott, A.~D\'\i{}az, and R.S. Sutor.
+\newblock {OpenMath: A Protocol for the Exchange of Mathematical Information}.
+\newblock {\em SIGSAM Bulletin 1}, 30:21--24, 1996.
+
+\bibitem{Barrettetal2015b}
+C.~Barrett, P.~Fontaine, and C.~Tinelli.
+\newblock {The SMT-LIB Standard: Version 2.5}.
+\newblock
+  \url{http://smtlib.cs.uiowa.edu/papers/smt-lib-reference-v2.5-r2015-06-28.pdf},
+  2015.
+
 \bibitem{Janotaetal2016a}
 M.~Janota, I.~Lynce, and J.~Marques-Silva.
 \newblock {Algorithms for computing backbones of propositional formulae}.
@@ -9,6 +21,12 @@ M.~Janota, I.~Lynce, and J.~Marques-Silva.
 M.~Luby, A.~Sinclair, and D.~Zuckerman.
 \newblock {Optimal Speedup of Las Vegas algorithms}.
 \newblock {\em Information Processing Letters}, 47:173--180, 1993.
+
+\bibitem{Spence2015a}
+I.~Spence.
+\newblock {Weakening Cardinality Constraints Creates Harder Satisfiability
+  Benchmarks}.
+\newblock {\em J. Exp. Algorithmics Article 1.4}, 20, 2015.
 
 \bibitem{Xuetal2008b}
 L.~Xu, F.~Hutter, H.H. Hoos, and K.~Leyton-Brown.
