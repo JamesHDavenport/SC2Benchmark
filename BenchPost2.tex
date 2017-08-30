@@ -47,7 +47,7 @@ This paper aims to document the SAT community practice for the benefit of the co
 \section{Virtual Best Solver}
 Though not shown in  Figure  \ref{fig:survivor}, the SAT competition has taken to including a "virtual best solver" (VBS)
 which is synthesised from the other results by taking the minimum (across all solvers tested) time taken to solve every given benchmark.
-Thus the VBS time is always equal to the time of some real solver, but which one will change by the benchmark (measuring how often each solver is the VBS is also an interesting metric).  The VBS can be added to the survivor/cactus plot to get a feeling for the variability between solvers.
+Thus the VBS time is always equal to the time of some real solver, but which one will change by the benchmark (measuring how often each solver is the VBS is also an interesting metric).  The VBS can be added to the survivor/cactus plot to get a feeling for the variability between solvers. In particular, if it tracksone solver, then that is close to being the best, whereas if it does significantly better than any individual solver, that is an indication that the different real solvers have different strengths and weaknesses, and a portfolio approach might be appropriate. See Section \ref{sec:RL}.
 \par
 We have therefore added this to our solvers on the diagrams, and counted how often a solver is the VBS. A variation on counting is provided by \cite{Janotaetal2016a}, who measure how often a solver is within one second of being VBS. Their justification is ``The constant of one second was chosen since we consider a smaller difference as insignificant, especially in the context of 800 second time-out''.
 %\ednote{@All: do we want to discuss this? For example, this is just as subject to random fluctuation as the original, but in a different place. How about scoring ``VBS points'': 1 if VBS, 0 if more than 5\% slower than VBS, and linear in between? Or any other smooth idea?}
@@ -150,7 +150,7 @@ The data used so far had 500 ``fast'' problems ($<2$ seconds), 50 ``medium''  (b
 %\subsection{Predictable}
 %\section{Martin Brain adds}
 \begin{figure}[t]
-\vbox{\centering\vskip-260pt
+\vbox{\centering\vskip-200pt
 \includegraphics[scale=1.4]{scatter.pdf}}
 \caption{Scatter Plot Example.\label{Fig:scatter}}
 \end{figure}
@@ -164,11 +164,12 @@ The data used so far had 500 ``fast'' problems ($<2$ seconds), 50 ``medium''  (b
 Scatter plots are used to compare pairs of solvers.  For each benchmark you plot (sometimes using different colours or marks for SAT and UNSAT) a point with x location the time taken by solver 1 and y the time taken by solver 2.  To make things easier to follow, people commonly add the diagonal (sometimes annotated with "solver 1 is faster"
 and "solver 2 is faster" on the relevant sides / corners) and the time-out lines.
 An example is shown in Figure \ref{Fig:scatter}, from which one might reasonably conclude that Solver 1 is typically 10 times slower than Solver 2, and that Solver 2 never timed out, whereas Solver 1 sometimes did.  loglog plots are usually used, since ratios are the usual deduction. 
-\section{Real Life}
-This section is drawn from Florian Schanda's joint work with Martn Brain, and the authors are very grateful to him for permission to include the slides.  Figure \ref{CVC16} is a standard tabular presentation of the summary numerical data from his benchmarking. From this one can certainly deduce that Z3 is slightly more  often the winner in terms of \%age of problems solved in each category. 
-On the Schanda set (Figure \ref{CVC21}), Z3 is the winner, but Colibri is faster while it's in the race. The vitrual best solver has a surprisingly good performance, remaining almost flat much longer than Colibri, and solving significantly more than any individual solver.
+\section{Real Life}\label{sec:RL}
+This section is drawn from Florian Schanda's joint work with Martin Brain, and the authors are very grateful to him for permission to include the slides.  Figure \ref{CVC16} is a standard tabular presentation of the summary numerical data from his benchmarking. From this one can certainly deduce that Z3 is slightly more  often the winner in terms of \%age of problems solved in each category. 
+On the Schanda set (Figure \ref{CVC21}), Z3 is the winner, but Colibri is faster while it's in the race. The virtual best solver has a surprisingly good performance, remaining almost flat much longer than Colibri, and solving significantly more than any individual solver.
 \par
- Nevertheless, it is not a winner on the Griggio set, and this is clearly shown in Figure \ref{CVC22}. Also shown here is the fact the theVitual Best Solver, while tracking Colibri closely, solves a few more. However, the data are not always so clear: consider Heizmann. Here Figure \ref{CVC16} tells is that Z3 comes third, beating MATHSAT(ACDL). However, a look at Figure  \ref{CVC23} shows that it's not so clear: yes, Z3 ultimately solves more, but takes a lot longer doing it.
+ Nevertheless, Z3 is not a winner on the Griggio set, and this is clearly shown in Figure \ref{CVC22}. Also shown here is the fact the the Virtual Best Solver, while tracking Colibri closely, solves a few more. 
+%However, the data are not always so clear: consider Heizmann. Here Figure \ref{CVC16} tells is that Z3 comes third, beating MATHSAT(ACDL). However, a look at Figure  \ref{CVC23} shows that it's not so clear: yes, Z3 ultimately solves more, but takes a lot longer doing it.
 \begin{figure}[h]
 \caption{Numerical Data for ``Real Life''\label{CVC16}}
 \vskip-120pt
@@ -1024,7 +1025,7 @@ data [set=sol6] {
 \end{center}
 %\vskip-100pt
 %\includegraphics[scale=0.8]{ExtractCVC22.pdf}
-\end{figure}
+\end{figure}\iffalse
 \begin{figure}[h]
 \caption{Heizmann Cactus Plot\label{CVC23}}
 \begin{center}
@@ -1325,7 +1326,7 @@ data [set=sol6] {
 \end{center}
 %\vskip-100pt
 %\includegraphics[scale=0.8]{ExtractCVC23.pdf}
-\end{figure}
+\end{figure}\fi
 \section{Conclusions}
 The SAT community has had substantial experience in measuring, and comparing, solvers whom time is intrinsically variable, and where selective publication of results could be used to justify almost every conclusion: for example selection from the data underpinning Figure \ref{Fig:scatter} could justify anything from ``On UNSAT examples, Solver 1 is comparable to Solver 2'', to ``Solver 2 is thousands of times faster than Solver 1''. If the computer algebra community is to move from publication of a small set of results to more objective comparisons, it will need to develop:
 \begin{itemize}
