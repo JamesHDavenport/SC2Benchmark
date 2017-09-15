@@ -32,9 +32,9 @@
 \title{Benchmarking Solvers, SAT-style}
 \author{Martin Nyx Brain\inst{1} \and James H. Davenport\inst{2} \and Alberto Griggio\inst{3}}
 \institute{ 
-University of Oxford, Oxford, U.K. \and
-University of Bath, Bath, U.K. \and
-Fondazione Bruno Kessler, Trento, Italy}
+University of Oxford, Oxford, U.K. {\tt Martin.Brain@cs.ox.ac.uk} \and
+University of Bath, Bath, U.K. {\tt J.H.Davenport@bath.ac.uk} \and
+Fondazione Bruno Kessler, Trento, Italy {\tt griggio@fbk.eu}}
 \authorrunning{Brain/Davenport/Griggio}
 \titlerunning{Benchmarking}
 \maketitle
@@ -47,7 +47,7 @@ This paper aims to document the SAT community practice for the benefit of the co
 \section{Virtual Best Solver}
 Though not shown in  Figure  \ref{fig:survivor}, the SAT competition has taken to including a "virtual best solver" (VBS)
 which is synthesised from the other results by taking the minimum (across all solvers tested) time taken to solve every given benchmark.
-Thus the VBS time is always equal to the time of some real solver, but which one will change by the benchmark (measuring how often each solver is the VBS is also an interesting metric).  The VBS can be added to the survivor/cactus plot to get a feeling for the variability between solvers. In particular, if it tracksone solver, then that is close to being the best, whereas if it does significantly better than any individual solver, that is an indication that the different real solvers have different strengths and weaknesses, and a portfolio approach might be appropriate. See Section \ref{sec:RL}.
+Thus the VBS time is always equal to the time of some real solver, but which one will change by the benchmark (measuring how often each solver is the VBS is also an interesting metric).  The VBS can be added to the survivor/cactus plot to get a feeling for the variability between solvers. In particular, if it tracks one solver, then that is close to being the best, whereas if it does significantly better than any individual solver, that is an indication that the different real solvers have different strengths and weaknesses, and a portfolio approach might be appropriate. See Section \ref{sec:RL}.
 \par
 We have therefore added this to our solvers on the diagrams, and counted how often a solver is the VBS. A variation on counting is provided by \cite{Janotaetal2016a}, who measure how often a solver is within one second of being VBS. Their justification is ``The constant of one second was chosen since we consider a smaller difference as insignificant, especially in the context of 800 second time-out''.
 %\ednote{@All: do we want to discuss this? For example, this is just as subject to random fluctuation as the original, but in a different place. How about scoring ``VBS points'': 1 if VBS, 0 if more than 5\% slower than VBS, and linear in between? Or any other smooth idea?}
@@ -68,7 +68,7 @@ The break even point for two-fold parallel running is $K=\frac12\left(1+\sqrt{37
 \includegraphics[scale=0.4]{RSolve20.jpg}
 \includegraphics[scale=0.4]{RlogSolve20.jpg}
 \end{figure}
-It is far from clear what sort of distribution the running times of SAT, and even less SMT, solvers have, but it would be foolish to ignore the normal distribution. We took 36 hypothetical cases, with 9 different running times $t_0=1,\ldots,9$, and standard deviations $t_0/10,2t_0/10,3t_0/10,4t_0/10$ for each running time. The mean running times roughly mimic the fact that a benchmark suite will have problems of a range of difficulties (indeed, we may have underplayed the range). Some problems seem to be more variable than others,but we have no real justification for the sane of standard deviations.
+It is far from clear what sort of distribution the running times of SAT, and even less SMT, solvers have, but it would be foolish to ignore the normal distribution. We took 36 hypothetical cases, with 9 different running times $t_0=1,\ldots,9$, and standard deviations $t_0/10,2t_0/10,3t_0/10,4t_0/10$ for each running time. The mean running times roughly mimic the fact that a benchmark suite will have problems of a range of difficulties (indeed, we may have underplayed the range). Some problems seem to be more variable than others,but we have no real justification for the scale of standard deviations.
 
 We used five (hypothetical) possible solvers. The base line one just took a time $t$ at random from the relevant normal distribution: $t \in N(t_0,kt_0/10)$. The second one ran two copies in parallel, terminating when the first one did, the third ran three copies, and the next two 10 and 20. In this case, the VBS is in fact the equivalent of running 36 copies.
 The data are in Figure  \ref{Fig:Normal}. Note that we are \emph{not} charging twice for the cost of running two copies, i.e. we are looking at ``time to solution'' not ``cost of solution''
@@ -172,7 +172,7 @@ On the Schanda set (Figure \ref{CVC21}), Z3 is the winner, but Colibri is faster
 %However, the data are not always so clear: consider Heizmann. Here Figure \ref{CVC16} tells is that Z3 comes third, beating MATHSAT(ACDL). However, a look at Figure  \ref{CVC23} shows that it's not so clear: yes, Z3 ultimately solves more, but takes a lot longer doing it.
 \begin{figure}[h]
 \caption{Numerical Data for ``Real Life''\label{CVC16}}
-\vskip-120pt
+\vskip-160pt
 {\hskip-180pt\includegraphics{ExtractCVC16trimv2.pdf}}\vskip-200pt
 \end{figure}\iffalse
 \begin{figure}[h]
